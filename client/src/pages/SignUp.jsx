@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {Link,useNavigate} from 'react-router-dom'
-
+import OAuth from '../components/OAuth';
 export default function SignUp() {
   const[formData,setFormData] = useState({});
   const[loading,setLoading] =useState(false);
@@ -32,11 +32,16 @@ export default function SignUp() {
 
       const data = await res.json();
             setLoading(false);
-            navigate("/sign-in")
+        
      if (data.success === false) {
         setError(true);
         return;
       }
+      else{
+        navigate("/sign-in") 
+      }
+
+      
       
     }
     catch(err){
@@ -54,6 +59,7 @@ export default function SignUp() {
         <input type="text" id="password" placeholder='Password' className='bg-slate-100 p-3 rounded-lg' onChange={(e) => handleChange(e)}/>
         <button className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 p-3'
         disabled={loading}>{loading? "LOADING" : "Sign up"}</button>
+         <OAuth />
         <div className='flex gap-2'>
           <p>Have an account?</p>
           <Link to ="/sign-in">
@@ -62,7 +68,7 @@ export default function SignUp() {
 
         </div>
       
-        <p className='text-red-200 p-5 '>{error && 'Something went wrong'}</p>        
+        <p className='text-red-200'>{error  ? error ||  'Something went wrong' : ''}</p>        
 
       </form>
     </div>
